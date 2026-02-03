@@ -234,7 +234,21 @@ st.set_page_config(layout="wide", page_title="HMS: PRO", page_icon="🎬")
 st.markdown("""
 <style>
     .stApp { background-color: #0d0d0d; color: #eee; font-family: 'Noto Sans KR', sans-serif; }
-    [data-testid="stSidebar"] { background-color: #1a1a1a; border-right: 1px solid #333; }
+    
+    /* Sidebar visibility fix */
+    [data-testid="stSidebar"] { 
+        background-color: #1a1a1a; 
+        border-right: 1px solid #333; 
+    }
+    
+    [data-testid="stSidebar"] * {
+        color: #ffffff !important;
+    }
+    
+    [data-testid="stSidebar"] label {
+        color: #ffffff !important;
+    }
+    
     .input-label { color: #00ADB5; font-size: 0.85rem; font-weight: bold; margin-bottom: 3px; }
     .shot-card { background: #1a1a1a; padding: 15px; border-left: 3px solid #00ADB5; margin-bottom: 10px; }
     .shot-header { font-size: 1.1rem; font-weight: bold; color: #fff; margin-bottom: 5px; }
@@ -901,3 +915,17 @@ elif "7." in step:
                 if current_video not in veo_models:
                     # Prioritize 3.1 > 3.0 > 2.0
                     sorted_veo = sorted(veo_models, key=lambda x: "3.1" in x, reverse=True)
+                    current_video = sorted_veo[0]
+                    save_config("MODEL_VIDEO", current_video)
+                
+                sel_video = st.selectbox("Select Video Model", veo_models, index=veo_models.index(current_video) if current_video in veo_models else 0, key="set_vid")
+                if sel_video != current_video:
+                    save_config("MODEL_VIDEO", sel_video)
+                    st.success(f"Saved: {sel_video}")
+                    time.sleep(0.1)
+                    st.rerun()
+            else:
+                st.warning("No 'Veo' video models found (Video Gen will fail without Tier 1 access).")
+
+        else:
+            st.error(f"Failed to list models: {s.get('model_err', 'Unknown Error')}")
