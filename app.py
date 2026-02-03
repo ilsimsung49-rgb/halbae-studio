@@ -362,10 +362,12 @@ if "0." in step:
     with col_img:
         # Load asset image
         try:
-            home_img = Image.open("assets/home_bg.jpg")
+            import os
+            img_path = os.path.join(os.path.dirname(__file__), "assets", "home_bg.jpg")
+            home_img = Image.open(img_path)
             st.image(home_img, use_container_width=True)
-        except:
-            st.warning("Cover image not found in assets/home_bg.jpg")
+        except Exception as e:
+            st.warning(f"Cover image not found: {e}")
 
 # ==========================================
 # 1. STORY (MASTER SCRIPT)
