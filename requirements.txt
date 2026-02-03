@@ -1,6 +1,7 @@
 streamlit
-google-generativeai
+google-genai
 requests
 pillow
 moviepy
 imageio-ffmpeg
+
