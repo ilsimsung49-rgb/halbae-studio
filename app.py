@@ -313,20 +313,30 @@ engine = MasterEngine(get_api_key())
 # 0. HOME
 # ==========================================
 if "0." in step:
-    # Custom Title Styling
+    # Custom Title Styling with Premium Background
     st.markdown("""
     <style>
+    /* Premium gradient background */
+    .stApp {
+        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    }
+    
     .studio-title {
         font-size: 4em;
         font-weight: 800;
-        color: #00ADB5;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         margin-bottom: 0px;
         line-height: 1.2;
+        text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
     }
     .studio-sub {
         font-size: 1.5em;
-        color: #ccc;
+        color: #a8b2d1;
         margin-bottom: 30px;
+        font-weight: 300;
     }
     </style>
     <div class='studio-title'>HALBAE</div>
@@ -334,10 +344,12 @@ if "0." in step:
     <div class='studio-sub'>AI Cinematic Production Workflow</div>
     """, unsafe_allow_html=True)
     
-    col_text, col_img = st.columns([1, 1.5])
+    col_text, col_img = st.columns([1, 2])
     
     with col_text:
         st.markdown("""
+        <div style='color: white; font-size: 1.1em;'>
+        
         ### 🎬 Production Workflow
         
         **1. Analysis (Director)**
@@ -354,17 +366,23 @@ if "0." in step:
         
         **4. Final Cut (Editor)**
         *   Clip Merging & Mastering
-        """)
+        
+        </div>
+        """, unsafe_allow_html=True)
         
         if st.button("🚀 Start New Project", type="primary"):
             st.info("Select '1. Story' from the sidebar to begin.")
 
     with col_img:
-        # Load home image
+        # Load home image from GitHub
         try:
-            import os
-            img_path = os.path.join(os.path.dirname(__file__), "home_bg.jpg")
-            home_img = Image.open(img_path)
+            from PIL import Image
+            import requests
+            from io import BytesIO
+            
+            img_url = "https://raw.githubusercontent.com/ilsimsung49-rgb/halbae-studio/main/home_bg.jpg"
+            response = requests.get(img_url)
+            home_img = Image.open(BytesIO(response.content))
             st.image(home_img, use_container_width=True)
         except Exception as e:
             st.info("🎬 Welcome to Halbae Master Studio")
@@ -870,17 +888,3 @@ elif "7." in step:
                 if current_video not in veo_models:
                     # Prioritize 3.1 > 3.0 > 2.0
                     sorted_veo = sorted(veo_models, key=lambda x: "3.1" in x, reverse=True)
-                    current_video = sorted_veo[0]
-                    save_config("MODEL_VIDEO", current_video)
-                
-                sel_video = st.selectbox("Select Video Model", veo_models, index=veo_models.index(current_video) if current_video in veo_models else 0, key="set_vid")
-                if sel_video != current_video:
-                    save_config("MODEL_VIDEO", sel_video)
-                    st.success(f"Saved: {sel_video}")
-                    time.sleep(0.1)
-                    st.rerun()
-            else:
-                st.warning("No 'Veo' video models found (Video Gen will fail without Tier 1 access).")
-
-        else:
-            st.error(f"Failed to list models: {s.get('model_err', 'Unknown Error')}")
