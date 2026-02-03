@@ -362,8 +362,13 @@ if "0." in step:
     with col_img:
         # Load asset image
         try:
-            home_img = Image.open("assets/home_bg.jpg")
-            st.image(home_img, use_container_width=True)
+           import os
+            img_path = os.path.join(os.path.dirname(__file__), "assets", "home_bg.jpg")
+            if os.path.exists(img_path):
+                home_img = Image.open(img_path)
+                st.image(home_img, use_container_width=True)
+            else:
+                st.warning(f"Cover image not found at: {img_path}")
         except:
             st.warning("Cover image not found in assets/home_bg.jpg")
 
@@ -882,3 +887,4 @@ elif "7." in step:
 
         else:
             st.error(f"Failed to list models: {s.get('model_err', 'Unknown Error')}")
+
