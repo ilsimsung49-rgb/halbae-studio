@@ -29,6 +29,14 @@ def save_config(key, value):
         json.dump(config, f, ensure_ascii=False, indent=4)
 
 def get_api_key(service="GOOGLE_API_KEY"):
+    # Try Streamlit Secrets first (for cloud deployment)
+    try:
+        if hasattr(st, 'secrets') and service in st.secrets:
+            return st.secrets[service]
+    except:
+        pass
+    
+    # Fallback to local config file
     config = load_config()
     return config.get(service, "")
 
