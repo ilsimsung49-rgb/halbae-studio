@@ -360,14 +360,14 @@ if "0." in step:
             st.info("Select '1. Story' from the sidebar to begin.")
 
     with col_img:
-        # Load asset image
+        # Load home image
         try:
             import os
-            img_path = os.path.join(os.path.dirname(__file__), "assets", "home_bg.jpg")
+            img_path = os.path.join(os.path.dirname(__file__), "home_bg.jpg")
             home_img = Image.open(img_path)
             st.image(home_img, use_container_width=True)
         except Exception as e:
-            st.warning(f"Cover image not found: {e}")
+            st.info("🎬 Welcome to Halbae Master Studio")
 
 # ==========================================
 # 1. STORY (MASTER SCRIPT)
