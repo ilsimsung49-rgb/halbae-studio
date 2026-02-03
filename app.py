@@ -275,8 +275,13 @@ with st.sidebar:
         st.rerun()
     
     if new_mode == "GOOGLE":
-        gk = st.text_input("Google Key", value=get_api_key(), type="password")
-        if gk != get_api_key(): save_config("GOOGLE_API_KEY", gk); st.rerun()
+        api_key = get_api_key()
+        if api_key and len(api_key) > 10:
+            st.success("✅ API Key Connected")
+        else:
+            st.warning("⚠️ API Key Required")
+            st.info("Set GOOGLE_API_KEY in Streamlit Cloud Secrets")
+            st.caption("Settings → Secrets → Add: GOOGLE_API_KEY = 'your_key'")
     else:
         st.caption("Ensure WebUI Forge is on port 7860")
         if st.button("Check Connection"):
