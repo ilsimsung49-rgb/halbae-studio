@@ -178,7 +178,7 @@ class MasterEngine:
             return self.forge.generate_image(prompt, neg, w, h)
             
         if not self.client: return None, "No API Key"
-        target = get_setting("MODEL_IMAGE", "imagen-3.0-generate-001")
+        target = get_setting("MODEL_IMAGE", "models/imagen-4.0-generate-preview-06-06")
         try:
             res = self.client.models.generate_images(
                 model=target, prompt=prompt, config=types.GenerateImagesConfig(number_of_images=1, aspect_ratio=ratio)
