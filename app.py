@@ -321,6 +321,19 @@ if "0." in step:
         background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
     }
     
+    /* Sidebar styling for visibility */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    }
+    
+    [data-testid="stSidebar"] * {
+        color: #ffffff !important;
+    }
+    
+    [data-testid="stSidebar"] .stRadio label {
+        color: #ffffff !important;
+    }
+    
     .studio-title {
         font-size: 4em;
         font-weight: 800;
